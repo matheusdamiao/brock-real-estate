@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
+import Image from "next/image";
 
 export default function Login({
   searchParams,
@@ -25,7 +26,7 @@ export default function Login({
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/protected");
+    return redirect("/admin");
   };
 
   const signUp = async (formData: FormData) => {
@@ -52,7 +53,7 @@ export default function Login({
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+    <div className="flex-1 flex flex-col h-screen px-4 lg:px-8 justify-center items-center gap-2 bg-[#111726] w-full">
       <Link
         href="/"
         className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
@@ -71,10 +72,18 @@ export default function Login({
         >
           <polyline points="15 18 9 12 15 6" />
         </svg>{" "}
-        Back
+        Voltar
       </Link>
 
-      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+      <form className="animate-in flex-1 flex flex-col flex-0 flex-grow-0 rounded-[9px] lg:px-10 px-4 py-10 w-full max-w-[550px] justify-center gap-2 text-foreground bg-[#ECEFF7] h-full lg:h-[600px]">
+        <Image
+          src="/icons/logo-brock-blue.svg"
+          width={113}
+          height={51}
+          alt=""
+          className="self-center"
+        />
+
         <label className="text-md" htmlFor="email">
           Email
         </label>

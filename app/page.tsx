@@ -1,54 +1,95 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
 import Header from "@/components/Header";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import Image from "next/image";
+import Link from "next/link";
+
+export interface PropertyType {
+  id: number;
+  created_at: string;
+  titulo: string;
+  status: boolean;
+  construcao: boolean;
+  endereco: string;
+  salas: number;
+  metragem: number;
+  vagas: number;
+  andares: number;
+  banheiro: number;
+  mobilia: boolean;
+  descricao: string;
+  preco: string;
+  IPTU: number;
+  condominio: number;
+  comodidades: string[];
+  transporte: string;
+  hospital: string;
+  escola: string;
+  imagens: string[];
+}
 
 export default async function Index() {
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const isSupabaseConnected = canInitSupabaseClient();
+  const supabase = createClient();
+  const { data: property } = await supabase.from("property").select();
+  console.log(property);
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
+    <div className="bg-white flex-1 w-full flex flex-col items-center h-full relative ">
+      <NavBar />
+
+      <div className="h-[500px] w-full">
+        <div className=" flex-1 flex flex-col gap-20 w-full relative h-full max-h-[500px] lg:h-[900px]">
+          <Image
+            // width={1461}
+            // height={516}
+            className="lg:object-bottom"
+            fill
+            objectFit="cover"
+            alt="hero image"
+            src="/images/bg-hero-home.webp"
+          />
+          <Header />
         </div>
-      </nav>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
       </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
+      {/* <div className="absolute top-0 flex flex-nowrap w-full gap-[20px] h-full opacity-40">
+        <div className="span h-full w-[2px] bg-[#E1E7F9] absolute left-0 ml-[5svw]"></div>
+        <div className="span h-full w-[2px] bg-[#E1E7F9] absolute right-0 mr-[5svw]"></div>
+        <div className="span w-full h-[2px] bg-[#E1E7F9] absolute top-0 mt-[10svh] lg:mt-[5svw]"></div>
+      </div> */}
+      <div className="flex py-[100px] px-6 items-center justify-center gap-10 max-w-7xl lg:flex-nowrap flex-wrap z-[54]">
+        {property?.map((property: PropertyType) => {
+          return (
+            <Link
+              key={property.id}
+              href={encodeURI(property.titulo.replace(/ /g, "-"))}
+              className="group min-w-[250px] w-full sm:min-w-[400px] sm:w-full xl:w-[590px] h-[400px] relative rounded-lg"
+            >
+              <Image
+                fill
+                className="rounded-lg object-cover group-hover:brightness-50 transition-all"
+                alt="image1"
+                src={property.imagens[0]}
+              />
+              <div className="group-hover:flex flex-col px-6 py-6 w-full hidden items-end justify-endereco absolute bottom-0 ">
+                <h3 className="text-white text-2xl"> {property.titulo}</h3>
+                <h2> R$ {property.preco}</h2>
+                <div className="flex items-center">
+                  <Image
+                    width={31}
+                    height={31}
+                    alt=""
+                    src="/icons/Location.svg"
+                    className="flex-0 flex-grow-0 flex-shrink-0"
+                  />
+                  <p>{property.endereco}</p>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+      <Footer />
     </div>
   );
 }
