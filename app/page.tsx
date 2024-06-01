@@ -67,7 +67,7 @@ export default async function Index() {
                 <CarouselCardsHome images={property.imagens}/>
 
                   {property.status &&
-                    <div className="flex items-center absolute bottom-4 right-4 py-2 px-4  mt-[20px] gap-2 bg-[#eef1fa] max-w-[130px] rounded-[9px]" >
+                    <div className="flex items-center absolute z-[88888888] bottom-4 right-4 py-2 px-4  mt-[20px] gap-2 bg-[#eef1fa] max-w-[130px] rounded-[9px]" >
                       <span className="bg-[#3C864C] animate-pulse  w-[14px] h-[14px] rounded-full flex-0 flex-grow-0 flex-shrink-0"></span>
                       <p className="text-[#8C95AE]">Disponível</p>
                    </div>
