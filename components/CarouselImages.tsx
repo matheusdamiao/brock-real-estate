@@ -95,19 +95,19 @@ export default function CarouselImages(props: PropTypes) {
           onClick={nextSlide}
           className="bg-[#ECEFF7] rounded-full px-4 py-4 flex items-center justify-center  w-[60px] h-[60px]"
         >
-          {/* <Image width={24} height={24} alt="arrow" src="/icons/arrow.webp" /> */}
+          <Image width={24} height={24} alt="arrow" src="/icons/arrow.webp" />
         </div>
         <button
           onClick={previousSlide}
           className="bg-[#ECEFF7] px-4 py-4 rounded-full w-[60px] h-[60px] flex items-center justify-center"
         >
-          {/* <Image
+          <Image
             width={24}
             height={24}
             alt="arrow"
             src="/icons/arrow.webp"
             className="rotate-180"
-          /> */}
+          />
         </button>
       </div>
     </div>
