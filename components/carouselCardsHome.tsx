@@ -19,7 +19,7 @@ const CarouselCardsHome = (props: Props) => {
           {props && props.images.map((img)=>{
             return(
                 <div key={img} className='flex-[0_0_100%] min-w-0 w-full'>
-                    <img src={img} alt="" className='object-contain w-full'/>
+                    <img src={img} alt="" className='object-cover w-full'/>
                 </div>
             )
           })}
