@@ -22,6 +22,18 @@
   }
 }
 
+
+html {
+  scroll-behavior: smooth;
+}
+
+.title-hero-gradient {
+  background: linear-gradient(149deg, #2150CE -25.35%, #FFF 62.39%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @layer base {
   * {
     /* @apply border-foreground/20; */
