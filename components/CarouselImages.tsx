@@ -1,5 +1,5 @@
 "use client";
-
+import useEmblaCarousel from 'embla-carousel-react'
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -8,105 +8,59 @@ interface PropTypes {
 }
 
 export default function CarouselImages(props: PropTypes) {
-  const imagesRef = useRef(null);
+
   const modal = useRef<HTMLDialogElement>(null);
-  const [current, setCurrent] = useState(0);
-  const [allImages, setAllImages] = useState(0);
 
-  const nextSlide = () => {
-    setCurrent(current === allImages - 1 ? 0 : current + 1);
-  };
 
-  const previousSlide = () => {
-    setCurrent(current === 0 ? allImages - 1 : current - 1);
-  };
-
-  const scrollIntoView = (index: number) => {
-    const listNode = imagesRef.current;
-    if (listNode) {
-      const childrenNumber = listNode as HTMLElement;
-      setAllImages(childrenNumber.children.length);
-
-      const imgNode = (listNode as HTMLElement).querySelectorAll("a > img")[
-        index
-      ];
-      imgNode.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  };
-
-  useEffect(() => {
-    scrollIntoView(current);
-  }, [current]);
+  const [emblaRef, emblaApi] = useEmblaCarousel()
 
   return (
-    <div className="relative max-h-[500px]">
+    <div className="relative max-h-[600px]">
       <div
-        className="lg:flex carousel space-x-16 relative max-h-[500px]"
-        ref={imagesRef}
+        className="lg:flex overflow-hidden relative max-h-[600px] carousel"
+        ref={emblaRef}
       >
-        {props &&
-          props.imagens &&
-          props.imagens.map((img) => {
-            return (
-              <a
-                className="carousel-item"
-                key={img}
-                onClick={() => modal.current?.showModal()}
-              >
-                <Image
-                  className="object-cover"
+        <div className='flex w-full h-full gap-6'>
+          {props &&
+            props.imagens &&
+            props.imagens.map((img) => {
+              return (
+                <a
+                  className="carousel-item lg:h-[600px] lg:max-w-[800px] flex-[0_0_100%] min-w-0  "
                   key={img}
-                  width={500}
-                  height={400}
-                  alt=""
-                  src={img}
-                />
-                <dialog id="my_modal_2" className="modal" ref={modal}>
-                  <div className="modal-box w-full max-w-full w-[800px]">
-                    <div className="carousel space-x-6">
-                      {props.imagens.map((img) => {
-                        return (
-                          <Image
-                            className="carousel-item object-cover"
-                            key={img}
-                            width={700}
-                            height={400}
-                            alt=""
-                            src={img}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-                  <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                  </form>
-                </dialog>
-              </a>
-            );
-          })}
+                  onClick={() => modal.current?.showModal()}
+                >
+                  <Image
+                    className="object-cover w-full h-[600px] lg:w-full"
+                    key={img}
+                    width={500}
+                    height={400}
+                    alt=""
+                    src={img}
+                  />
+                  
+
+                </a>
+              );
+            })}
+          </div>
       </div>
-      <div className="flex  gap-2 bg-transparent bottom-0 right-0 w-full lg:w-min justify-center lg:right-24 h-min lg:absolute">
-        <div
-          onClick={nextSlide}
-          className="bg-[#ECEFF7] rounded-full px-4 py-4 flex items-center justify-center  w-[60px] h-[60px]"
-        >
-          <Image width={24} height={24} alt="arrow" src="/icons/arrow.webp" />
-        </div>
+      <div className="flex z-[888] absolute gap-2 bg-transparent bottom-0 right-0 w-full lg:w-min justify-center lg:right-24 h-min lg:absolute">
         <button
-          onClick={previousSlide}
-          className="bg-[#ECEFF7] px-4 py-4 rounded-full w-[60px] h-[60px] flex items-center justify-center"
+          onClick={()=> emblaApi?.scrollNext()}
+          className="bg-[#ECEFF7] rounded-full pr-1 py-4 flex items-center justify-center  w-[60px] h-[60px]"
+        >
+          <Image width={15} height={15} alt="arrow" src="/icons/arrow.svg"   className="rotate-180"/>
+        </button>
+        <button
+          onClick={()=> emblaApi?.scrollPrev()}  
+          className="bg-[#ECEFF7] pl-1 rounded-full w-[60px] h-[60px] flex items-center justify-center"
         >
           <Image
-            width={24}
-            height={24}
+            width={15}
+            height={15}
             alt="arrow"
-            src="/icons/arrow.webp"
-            className="rotate-180"
+            src="/icons/arrow.svg"
           />
         </button>
       </div>

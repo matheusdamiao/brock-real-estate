@@ -56,7 +56,7 @@ export default function Login({
     <div className="flex-1 flex flex-col h-screen px-4 lg:px-8 justify-center items-center gap-2 bg-[#111726] w-full">
       <Link
         href="/"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
+        className="absolute left-0 top-8 py-2 px-4 rounded-md no-underline text-white bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

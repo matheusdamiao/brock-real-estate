@@ -14,12 +14,12 @@ const CarouselCardsHome = (props: Props) => {
     
 
       return (
-      <div className="overflow-hidden h-full w-full lg:h-[400px] relative z-[8888]" ref={emblaRef}>
-        <div className="flex">
+      <div className="overflow-hidden h-full w-full lg:h-[350px] relative z-[8888]" ref={emblaRef}>
+        <div className="flex ">
           {props && props.images.map((img)=>{
             return(
-                <div key={img} className='flex-[0_0_100%] min-w-0 w-full'>
-                    <img src={img} alt="" className='object-cover w-full'/>
+                <div key={img} className='flex-[0_0_100%] min-w-0 max-w-full lg:w-[400px] h-full'>
+                    <img src={img} alt="" className='object-cover  h-full'/>
                 </div>
             )
           })}

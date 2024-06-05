@@ -32,10 +32,11 @@ export default function Comodidades(props: PropTypes) {
     const resultado: React.JSX.Element[] = [];
 
     strings.forEach((str) => {
+      let encontrado = false;
       for (const grupo in grupos) {
         if (str.includes(grupo)) {
           resultado.push(
-            <div key={str + grupo} className="flex gap-4 items-center">
+            <div key={str} className="flex gap-4 items-center">
               <img
                 src={grupos[grupo]}
                 alt={grupo}
@@ -45,8 +46,21 @@ export default function Comodidades(props: PropTypes) {
               <span className="text-[#8C95AE] font-normal text-lg">{str}</span>
             </div>
           );
+          encontrado = true;
+          break;
         }
+        
+        
       }
+      if (!encontrado) {
+        resultado.push(
+          <div key={str} className="flex gap-4 items-center">
+            <img  width={33} src='/icons/comodidade-default.svg'/>
+            <span className="text-[#8C95AE] font-normal text-lg">{str}</span>
+          </div>
+        );
+      }
+      
     });
 
     // console.log("olha os resultados", resultado);
@@ -59,7 +73,7 @@ export default function Comodidades(props: PropTypes) {
   }, []);
 
   useEffect(() => {
-    // console.log(itens);
+    console.log(itens);
   }, [itens]);
 
   return (

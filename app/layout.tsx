@@ -1,4 +1,3 @@
-import NavBar from "@/components/NavBar";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL

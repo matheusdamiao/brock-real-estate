@@ -1,9 +1,10 @@
 "use client";
 import { removeDiacritics } from "@/utils/removeDiacritics";
 import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
-interface SupabaseUploadResponse {
+export interface SupabaseUploadResponse {
   data: { path: string; fullPath: string } | null;
   error: any | null;
 }
@@ -21,8 +22,10 @@ enum StepsTypes {
 }
 
 export default function CreateNewProperty(props: PropTypes) {
+  const router = useRouter()
   const [steps, setSteps] = useState<StepsTypes>(StepsTypes.first);
 
+  const [id, setId] = useState("")
   const [status, setStatus] = useState("");
   const [titulo, setTitulo] = useState("");
   const [endereco, setEndereco] = useState("");
@@ -34,9 +37,9 @@ export default function CreateNewProperty(props: PropTypes) {
   const [vagas, setVagas] = useState<number>(0);
   const [banheiros, setBanheiros] = useState<number>(0);
 
-  const [preco, setPreco] = useState<number>(0);
-  const [condo, setCondo] = useState<number>(0);
-  const [iptu, setIptu] = useState<number>(0);
+  const [preco, setPreco] = useState('');
+  const [condo, setCondo] = useState('');
+  const [iptu, setIptu] = useState('');
 
   const [construction, setConstruction] = useState<boolean>(false);
   const [mobilia, setMobilia] = useState<boolean>(false);
@@ -47,9 +50,9 @@ export default function CreateNewProperty(props: PropTypes) {
 
   const [comodidades, setComodidades] = useState<string[]>();
 
-  const [school, setSchool] = useState<string>();
-  const [transport, setTransport] = useState<string>();
-  const [hospital, setHospital] = useState<string>();
+  const [school, setSchool] = useState<string>('');
+  const [transport, setTransport] = useState<string>('');
+  const [hospital, setHospital] = useState<string>('');
 
 
   const [imagens, setImagens] = useState<string[]>([]);
@@ -87,7 +90,8 @@ export default function CreateNewProperty(props: PropTypes) {
   const handleForm = async () => {
     const { data, error } = await supabase
     .from('property')
-    .insert({ titulo: titulo, 
+    .insert({ id: id,
+              titulo: titulo, 
               status: status === 'disponivel', 
               construcao: construction, 
               endereco: endereco,
@@ -112,6 +116,7 @@ export default function CreateNewProperty(props: PropTypes) {
       if(data){
         console.log(data);
         alert("imóvel Criado!")
+        router.push('/admin');
       }
       if(error){
         console.log(error),
@@ -172,66 +177,118 @@ export default function CreateNewProperty(props: PropTypes) {
 
 
   const uploadFile = async ( event: ChangeEvent & { target: HTMLInputElement }) =>{
-    if (event.target.files && event.target.files?.length) {
+
+    if(event.target.files && event.target.files?.length){
+
       const file = event.target?.files[0];
-
-      const cleanedStorageFolderName = removeDiacritics(titulo);
-
       const cleanedFileName = removeDiacritics(file.name);
+
+      const bucket = `brock/imoveis/${id}`;
+
+      const dataResponse = await supabase.storage
+                .from(bucket)
+                .upload(cleanedFileName, file);
+
+      const castedResponse = dataResponse as SupabaseUploadResponse;
+
+      if(castedResponse.data){
+        console.log(castedResponse.data)
+        setImagens((imgs)=> [...imgs, `https://lqkcetrqfmsvcgxakfqv.supabase.co/storage/v1/object/public/${castedResponse.data?.fullPath}`])
+        alert("Imagem carregada!")
+      }
+
+      if(castedResponse.error){
+        console.log(castedResponse.error);
+        alert('Deu erro no carregamento! Tente novamente');
+      }
+
+
+    }
+
+
+
+
+    // if (event.target.files && event.target.files?.length) {
+    //   const file = event.target?.files[0];
+
+    //   const cleanedStorageFolderName = removeDiacritics(titulo);
+
+    //   const cleanedFileName = removeDiacritics(file.name);
      
 
 
-      const bucket = `brock/imoveis/${cleanedStorageFolderName}`;
+    //   const bucket = `brock/imoveis/${cleanedStorageFolderName}`;
 
-      // Call Storage API to upload file
-      const data = await supabase.storage
-        .from(bucket)
-        .upload(cleanedFileName, file);
+    //   // Call Storage API to upload file
+    //   const data = await supabase.storage
+    //     .from(bucket)
+    //     .upload(cleanedFileName, file);
 
-        const castedResponse = data as SupabaseUploadResponse;
+    //     const castedResponse = data as SupabaseUploadResponse;
 
 
-      if(castedResponse.data){
-        console.log('tem resposta aqui', castedResponse);
-        setImagens((imgs)=> [...imgs, `https://lqkcetrqfmsvcgxakfqv.supabase.co/storage/v1/object/public/${castedResponse.data?.fullPath}`])
-        alert("File uploaded successfully!");
-        setFileNames((prev)=> [...prev, cleanedFileName])
-      }
+    //   if(castedResponse.data){
+    //     console.log('tem resposta aqui', castedResponse);
+    //     setImagens((imgs)=> [...imgs, `https://lqkcetrqfmsvcgxakfqv.supabase.co/storage/v1/object/public/${castedResponse.data?.fullPath}`])
+    //     alert("File uploaded successfully!");
+    //     setFileNames((prev)=> [...prev, cleanedFileName])
+    //   }
 
-      // Handle error if upload failed
-      if(castedResponse.error){
-        console.log(castedResponse.error);
-        alert('deu erro!')
-      }
+    //   // Handle error if upload failed
+    //   if(castedResponse.error){
+    //     console.log(castedResponse.error);
+    //     alert('deu erro!')
+    //   }
 
-    }
+    // }
 
 
   }
 
  const deleteImage = async (url: string) =>{
 
-  const cleanedStorageFolderName = removeDiacritics(titulo);
 
-  const path = fileNames.find(name => url.includes(name))
+  const fileName = url.split('/').pop();
+  console.log(fileName);
 
-  console.log(path);
+  const bucket = `brock/imoveis/${id}`;
 
-  // const bucket = `brock/imoveis/${cleanedStorageFolderName}`;
+   const { data, error } = await supabase
+      .storage
+      .from('brock')
+      .remove([`imoveis/${id}/${fileName}`])
 
-    const { data, error } = await supabase
-    .storage
-    .from('brock')
-    .remove([`imoveis/${cleanedStorageFolderName}/${path}`])
+      if(data){
+            console.log(data);
+           setImagens((imgs)=> imgs.filter(img => img !== url))
+         }
+        
+      if(error){
+          console.log(error)
+          }
 
-    if(data){
-      console.log(data);
-      setFileNames(prevName => prevName.filter(image => image !== path));
-      setImagens((imgs)=> imgs.filter(img => img !== url))
-    }
-    if(error){
-      console.log(error)
-    }
+
+  // const cleanedStorageFolderName = removeDiacritics(titulo);
+
+  // const path = fileNames.find(name => url.includes(name))
+
+  // console.log(path);
+
+  // // const bucket = `brock/imoveis/${cleanedStorageFolderName}`;
+
+  //   const { data, error } = await supabase
+  //   .storage
+  //   .from('brock')
+  //   .remove([`imoveis/${cleanedStorageFolderName}/${path}`])
+
+  //   if(data){
+  //     console.log(data);
+  //     setFileNames(prevName => prevName.filter(image => image !== path));
+  //     setImagens((imgs)=> imgs.filter(img => img !== url))
+  //   }
+  //   if(error){
+  //     console.log(error)
+  //   }
  }
 
 
@@ -245,6 +302,20 @@ export default function CreateNewProperty(props: PropTypes) {
           <h3 className="text-center pb-[15px] text-[#2B3040]">
             Informações Gerais
           </h3>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="id" className="text-[#8C95AE]">
+              {" "}
+              ID*
+            </label>
+            <small className="text-gray-400">*Este número precisa ser único e não poderá ser editado</small>
+            <input
+              type="text"
+              id="id"
+              className="px-2 py-2 max-w-[100px] rounded-[9px]"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
+          </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="titulo" className="text-[#8C95AE]">
               {" "}
@@ -469,15 +540,14 @@ export default function CreateNewProperty(props: PropTypes) {
           <div className="flex flex-col ">
             <div className="flex flex-col gap-2 pt-6">
               <label htmlFor="preco" className="text-[#8C95AE]">
-                {" "}
-                Preço
+                Preço  
               </label>
               <input
-                type="number"
+                type="text"
                 id="preco"
                 className="px-2 py-2 rounded-[9px]"
-                value={String(preco)}
-                onChange={(e) => setPreco(Number(e.target.value))}
+                value={preco}
+                onChange={(e) => setPreco(e.target.value)}
               />
             </div>
 
@@ -487,11 +557,11 @@ export default function CreateNewProperty(props: PropTypes) {
                 Condomínio
               </label>
               <input
-                type="number"
+                type="text"
                 id="condominio"
                 className="px-2 py-2 rounded-[9px]"
-                value={String(condo)}
-                onChange={(e) => setCondo(Number(e.target.value))}
+                value={condo}
+                onChange={(e) => setCondo(e.target.value)}
               />
             </div>
 
@@ -501,11 +571,11 @@ export default function CreateNewProperty(props: PropTypes) {
                 IPTU
               </label>
               <input
-                type="number"
+                type="text"
                 id="iptu"
                 className="px-2 py-2 rounded-[9px]"
-                value={String(iptu)}
-                onChange={(e) => setIptu(Number(e.target.value))}
+                value={iptu}
+                onChange={(e) => setIptu(e.target.value)}
               />
             </div>
           </div>
@@ -655,7 +725,7 @@ export default function CreateNewProperty(props: PropTypes) {
       )}
 
       {steps === StepsTypes.fourth && (
-        <div className="h-full h-[500px]">
+        <div className="h-full min-h-[500px]">
           <h3 className="text-center pb-[15px] text-[#2B3040]">Imagens</h3>
           <div className="flex flex-col ">
             <div className="flex flex-col gap-2 pt-6">
@@ -665,10 +735,15 @@ export default function CreateNewProperty(props: PropTypes) {
               </label>
               <input type="file" onChange={uploadFile} />
             </div>
-            <div className="flex flex-wrap gap-4 justify-center pt-10">
+            <small className=" bg-red-200 text-xs px-2 py-1 w-max mt-4"> Adicione uma imagem por vez</small>
+            <div className="flex w-full flex-wrap gap-4 justify-center pt-10">
               {imagens && imagens.map((img)=>{
               return(
-                <img width={200} height={100} key={img} src={img} alt='' onClick={()=> deleteImage(img)}/>
+                <div key={img} className="relative">
+                  <span onClick={()=> deleteImage(img)} className="absolute bottom-0 bg-black py-1 px-2 text-white hover:cursor-pointer">Apagar</span>
+                  <img width={300} height={300} key={img} src={img} alt='' />
+                </div>
+      
               )
                })}
             </div>
