@@ -13,12 +13,12 @@ const ContactSection = () => {
                 <h3 className='text-[#111726] font-semibold text-4xl'>Agende uma visita</h3>
                 <p className='text-lg text-[#5A6072] flex-0 flex-shrink-0 flex-grow-0  max-w-[480px]'>Agende uma visita em um de nossos imóveis e conheça o futuro escritório da sua empresa</p>
                 <form action="" className=' w-full flex flex-col gap-5 max-w-[500px]'>
-                    <div className='flex justify-between flex-wrap lg:flex-nowrap flex-col lg:flex-row lg:gap-8'>
+                    <div className='flex justify-between flex-wrap items-center lg:flex-nowrap flex-col lg:flex-row lg:gap-8'>
                         <div className='flex flex-col lg:w-[90%]'>
                             <label htmlFor="nome" className='text-[#908F8F]'>Nome</label>
                             <input type="text" id='nome' className='bg-[#E6E7EB]  py-2 px-2 rounded-[9px]'/>
                         </div>
-                        <div className='flex flex-col lg:w-[90%] pt-4'>
+                        <div className='flex flex-col lg:w-[90%] lg:pt-0 pt-4'>
                             <label htmlFor="telefone"  className='text-[#908F8F]'>Telefone</label>
                             <input type="text" id='telefone' className='bg-[#E6E7EB] w-full py-2 px-2 rounded-[9px]'/>
                         </div>
@@ -41,7 +41,7 @@ const ContactSection = () => {
                     <p className='text-[#5A6072] text-sm lg:text-lg' >secretaria@brockinvestimentos.com.br</p>
                 </div>
                 <div className='flex items-center max-w-[450px] w-full bg-[#E1E7F9] py-5 px-4 rounded-[9px] gap-10 lg:flex-nowrap flex-wrap justify-center'>
-                    <a href='https://api.whatsapp.com/send?phone=5511975122450' className='flex items-center gap-3 '>
+                    <a href='https://api.whatsapp.com/send?phone=5511975122450' className='cursor-pointer flex items-center gap-3 '>
                         <img src={zap.src} alt="" width={25}/>
                         <p className='text-[#5A6072] text-sm lg:text-lg' > (11) 3894-3994  </p>
                     </a>

@@ -9,8 +9,8 @@ export default function Footer() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={logo.src} alt="" className="max-w-[100px]" />
         <div className="text-[#E6E7EB] pt-8 font-body font-normal flex flex-col gap-4">
-          <p>Impulsionamos o crescimento de negócios visionários</p>
-          <p>email@brockinvestimentos.com</p>
+          {/* <p>Impulsionamos o crescimento de negócios visionários</p> */}
+          <p>secretaria@brockempreendimentos.com.br</p>
           <div className="flex flex-col flex-wrap text-[#BCC1D1] ">
             <p>Endereço: Rua Joaquim Floriano, 72</p>
             <p>Conj. 141 e 142 Parte Edif. Sao Paulo Head Offices</p>

@@ -22,8 +22,8 @@ export interface PropertyType {
   mobilia: boolean;
   descricao: string;
   preco: string;
-  IPTU: number;
-  condominio: number;
+  IPTU: string;
+  condominio: string;
   comodidades: string[];
   transporte: string;
   hospital: string;
@@ -53,37 +53,14 @@ export default async function ProtectedPage() {
         </nav>
       </div>
 
-      <div className="animate-in flex-col flex lg:gap-12 opacity-0 max-w-7xl w-full px-6 gap-4">
+      <div className="animate-in flex-col flex lg:gap-12 items-end opacity-0 max-w-7xl w-full px-6 gap-4">
         <div>
-          <Link href="/admin/create" className="btn btn-primary">
+          <Link href="/admin/create" className="btn btn-primary self-end ">
             Adicionar Novo Imóvel
           </Link>
         </div>
-        <div className="bg-[#F2F2F2] shadow-xl max-w-[500px] w-full px-6 py-6  lg:px-8 rounded-[9px] lg:py-8">
-          <div className="flex items-center justisfy-evenly justify-between  ">
-            <div>
-              <h3 className="text-[#8C95AE] text-base font-body font-normal">
-                Total
-              </h3>
-              <h2 className="text-[#111726] text-3xl">42</h2>
-            </div>
-
-            <div>
-              <h3 className="text-[#8C95AE] text-base font-body">
-                Disponíveis
-              </h3>
-              <h2 className="text-[#111726] text-3xl">2</h2>
-            </div>
-
-            <div>
-              <h3 className="text-[#8C95AE] text-base font-body">
-                Em construção
-              </h3>
-              <h2 className="text-[#111726] text-3xl">6</h2>
-            </div>
-          </div>
-        </div>
-        <main className="flex gap-24 py-[20px] lg:py-[150px] flex-wrap flex-col w-full ">
+        
+        <main className="flex gap-24 pb-[100px] flex-wrap flex-col w-full ">
           {property?.map((prop: PropertyType) => {
             return <CardRealEstateAdmin key={prop.id} {...prop} />;
           })}

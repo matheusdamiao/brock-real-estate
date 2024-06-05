@@ -23,8 +23,8 @@ export interface PropertyType {
   mobilia: boolean;
   descricao: string;
   preco: string;
-  IPTU: number;
-  condominio: number;
+  IPTU: string;
+  condominio: string;
   comodidades: string[];
   transporte: string;
   hospital: string;
@@ -35,7 +35,7 @@ export interface PropertyType {
 export default async function Index() {
   const supabase = createClient();
   const { data: property } = await supabase.from("property").select();
-  console.log(property);
+  // console.log('as propriedades aqui', property);
 
   return (
     <div className="bg-white flex-1 w-full flex flex-col items-center h-full relative ">

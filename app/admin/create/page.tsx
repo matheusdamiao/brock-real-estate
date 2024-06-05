@@ -65,7 +65,9 @@ export default function CreateRealEstate() {
         </div>
       </div>
 
-      <CreateNewProperty steps={step} setSteps={setStep} />
+      <div className="px-6">
+        <CreateNewProperty steps={step} setSteps={setStep} />
+      </div>
     </div>
   );
 }
