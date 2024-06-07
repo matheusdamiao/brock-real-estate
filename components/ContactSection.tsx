@@ -13,7 +13,7 @@ const ContactSection = () => {
                 <h3 className='text-[#111726] font-semibold text-4xl'>Agende uma visita</h3>
                 <p className='text-lg text-[#5A6072] flex-0 flex-shrink-0 flex-grow-0  max-w-[480px]'>Agende uma visita em um de nossos imóveis e conheça o futuro escritório da sua empresa</p>
                 <form action="" className=' w-full flex flex-col gap-5 max-w-[500px]'>
-                    <div className='flex justify-between flex-wrap items-center lg:flex-nowrap flex-col lg:flex-row lg:gap-8'>
+                    <div className='flex justify-between flex-wrap lg:items-center lg:flex-nowrap flex-col lg:flex-row lg:gap-8'>
                         <div className='flex flex-col lg:w-[90%]'>
                             <label htmlFor="nome" className='text-[#908F8F]'>Nome</label>
                             <input type="text" id='nome' className='bg-[#E6E7EB]  py-2 px-2 rounded-[9px]'/>

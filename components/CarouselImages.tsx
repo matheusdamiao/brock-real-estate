@@ -38,8 +38,7 @@ export default function CarouselImages(props: PropTypes) {
                     alt=""
                     src={img}
                   />
-                  
-
+                
                 </a>
               );
             })}
@@ -47,13 +46,13 @@ export default function CarouselImages(props: PropTypes) {
       </div>
       <div className="flex z-[888] absolute gap-2 bg-transparent bottom-0 right-0 w-full lg:w-min justify-center lg:right-24 h-min lg:absolute">
         <button
-          onClick={()=> emblaApi?.scrollNext()}
+          onClick={()=> emblaApi?.scrollPrev()}
           className="bg-[#ECEFF7] rounded-full pr-1 py-4 flex items-center justify-center  w-[60px] h-[60px]"
         >
           <Image width={15} height={15} alt="arrow" src="/icons/arrow.svg"   className="rotate-180"/>
         </button>
         <button
-          onClick={()=> emblaApi?.scrollPrev()}  
+          onClick={()=> emblaApi?.scrollNext()}  
           className="bg-[#ECEFF7] pl-1 rounded-full w-[60px] h-[60px] flex items-center justify-center"
         >
           <Image

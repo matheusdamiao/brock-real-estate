@@ -46,10 +46,10 @@ export default function Login({
     });
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      return redirect("/login?message=Ocorreu um erro. Tente novamente");
     }
 
-    return redirect("/login?message=Check email to continue sign in process");
+    return redirect("/login?message=Acesso criado com sucesso!");
   };
 
   return (
