@@ -9,6 +9,7 @@ import GoogleMaps from "./../../components/GoogleMaps";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import zap from './../../public/icons/Zap.svg'
 
 export default async function Page({ params }: { params: { imovel: string } }) {
   const supabase = createClient();
@@ -230,10 +231,13 @@ export default async function Page({ params }: { params: { imovel: string } }) {
                 </div>
 
                 <div className="flex flex-wrap lg:flex-nowrap items-center justify-center  gap-6 w-full max-w-[600px] ">
-                  <button className="btn-primary btn max-w-[250px] w-full">
-                    {" "}
+                  <a 
+                    href="https://api.whatsapp.com/send?phone=555192787808"
+                    target="_blank"
+                  className="btn-primary btn max-w-[250px] w-full flex items-center justify-center gap-4">
+                    <Image src={zap} width={20} height={20} alt='whatsapp' />
                     Agendar Visita
-                  </button>
+                  </a>
                   <button className="btn-secondary btn max-w-[250px] text-[#3C5086] w-full">
                     Compartilhar
                   </button>

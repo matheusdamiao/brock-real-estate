@@ -41,9 +41,9 @@ const ContactSection = () => {
                     <p className='text-[#5A6072] text-sm lg:text-lg' >secretaria@brockinvestimentos.com.br</p>
                 </div>
                 <div className='flex items-center max-w-[450px] w-full bg-[#E1E7F9] py-5 px-4 rounded-[9px] gap-10 lg:flex-nowrap flex-wrap justify-center'>
-                    <a href='https://api.whatsapp.com/send?phone=5511975122450' className='cursor-pointer flex items-center gap-3 '>
+                    <a href='https://api.whatsapp.com/send?phone=5511975122450' target='_blank' className='cursor-pointer flex items-center gap-3 '>
                         <img src={zap.src} alt="" width={25}/>
-                        <p className='text-[#5A6072] text-sm lg:text-lg' > (11) 3894-3994  </p>
+                        <p className='text-[#5A6072] text-sm lg:text-lg' > (11) 97512-2450 </p>
                     </a>
                     <div  className='flex items-center gap-3'>
                         <img src={phone.src} alt="" width={25}/>
