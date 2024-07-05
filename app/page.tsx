@@ -7,6 +7,7 @@ import Link from "next/link";
 import ContactSection from "@/components/ContactSection";
 import MeetTheNeighbors from "@/components/meetTheNeighbors";
 import CarouselCardsHome from "@/components/carouselCardsHome";
+import ZapBtn from "@/components/ZapBtn";
 
 export interface PropertyType {
   id: number;
@@ -39,6 +40,7 @@ export default async function Index() {
 
   return (
     <div className="bg-white flex-1 w-full flex flex-col items-center h-full relative ">
+      <ZapBtn/>
       <NavBar />
       {/* lg:object-[0_-380px] */}
       <div className="h-[500px] w-full">
@@ -48,7 +50,7 @@ export default async function Index() {
             fill
             objectFit="cover"
             alt="hero image"
-            src="/images/hero-dark.webp"
+            src="/images/bg-hero-home.webp"
           />
           <Header />
         </div>
